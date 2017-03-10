@@ -1,0 +1,144 @@
+<beans xmlns="http://www.springframework.org/schema/beans"
+       xmlns:context="http://www.springframework.org/schema/context"
+       xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+       xmlns:mvc="http://www.springframework.org/schema/mvc"
+       xmlns:beans="http://www.springframework.org/schema/util"
+       xmlns:tx="http://www.springframework.org/schema/tx"
+       xsi:schemaLocation="http://www.springframework.org/schema/beans
+        http://www.springframework.org/schema/beans/spring-beans-3.0.xsd
+        http://www.springframework.org/schema/context
+        http://www.springframework.org/schema/context/spring-context-3.0.xsd
+        http://www.springframework.org/schema/mvc
+        http://www.springframework.org/schema/mvc/spring-mvc-3.2.xsd
+        http://www.springframework.org/schema/util
+        http://www.springframework.org/schema/util/spring-util.xsd
+        http://www.springframework.org/schema/tx
+        http://www.springframework.org/schema/tx/spring-tx-4.0.xsd">
+
+    <context:component-scan base-package="com.app"/>
+
+    <context:property-placeholder location="WEB-INF/ad.properties"/>
+
+    <bean class="org.springframework.web.servlet.view.InternalResourceViewResolver">
+        <property name="prefix" value="/WEB-INF/pages/"/>
+        <property name="suffix" value=".jsp"/>
+    </bean>
+
+
+
+
+    <bean id="OpenProject" class="org.apache.commons.dbcp.BasicDataSource"
+                destroy-method="close">
+        <property name="driverClassName" value="com.mysql.jdbc.Driver" />
+        <property name="url" value="jdbc:mysql://localhost:3306/bitnami_openproject" />
+        <property name="username" value="root" />
+        <property name="password" value="" />
+    </bean>
+
+    <bean id="hibernate4_openproject"
+          class="org.springframework.orm.hibernate4.LocalSessionFactoryBean">
+        <property name="dataSource" ref="OpenProject" />
+        <property name="annotatedClasses">
+            <list>
+                <value>com.app.model.openProject.UsersOpenProject</value>
+            </list>
+        </property>
+        <property name="hibernateProperties">
+            <props>
+                <prop key="hibernate.dialect">org.hibernate.dialect.MySQLDialect</prop>
+                <prop key="hibernate.show_sql">true</prop>
+            </props>
+        </property>
+    </bean>
+
+    <bean id="UserOpenProjectDAO" class="com.app.dao.openProject.UserOpenProjectDAOImpl">
+        <property name="sessionFactory" ref="hibernate4_openproject" />
+    </bean>
+
+    <bean id="userOpenProjectService" class="com.app.service.openProject.UserOpenProjectServiceImpl">
+        <property name="usersOpenProjectDAO" ref="UserOpenProjectDAO"></property>
+    </bean>
+
+    <tx:annotation-driven transaction-manager="transactionManager_openproject"/>
+
+    <bean id="transactionManager_openproject" class="org.springframework.orm.hibernate4.HibernateTransactionManager">
+        <property name="sessionFactory" ref="hibernate4_openproject" />
+    </bean>
+
+
+
+
+
+    <bean id="epa" class="org.apache.commons.dbcp.BasicDataSource"
+          destroy-method="close">
+        <property name="driverClassName" value="com.mysql.jdbc.Driver" />
+        <property name="url" value="jdbc:mysql://localhost:3306/epa" />
+        <property name="username" value="root" />
+        <property name="password" value="" />
+    </bean>
+
+    <bean id="hibernate4_epa"
+          class="org.springframework.orm.hibernate4.LocalSessionFactoryBean">
+        <property name="dataSource" ref="epa" />
+        <property name="annotatedClasses">
+            <list>
+                <value>com.app.model.epa.Sprint</value>
+            </list>
+        </property>
+        <property name="hibernateProperties">
+            <props>
+                <prop key="hibernate.dialect">org.hibernate.dialect.MySQLDialect</prop>
+                <prop key="hibernate.show_sql">true</prop>
+            </props>
+        </property>
+    </bean>
+
+    <bean id="SprintDAO" class="com.app.dao.epa.SprintDAOImpl">
+        <property name="sessionFactory" ref="hibernate4_epa" />
+    </bean>
+
+    <bean id="sprintService" class="com.app.service.epa.SprintServiceImpl">
+        <property name="sprintDAO" ref="SprintDAO"></property>
+    </bean>
+
+    <tx:annotation-driven transaction-manager="transactionManager_epa"/>
+
+    <bean id="transactionManager_epa" class="org.springframework.orm.hibernate4.HibernateTransactionManager">
+        <property name="sessionFactory" ref="hibernate4_epa" />
+    </bean>
+
+
+
+
+    <!-- scheduler-->
+    <bean id="queryProcessor" class="com.app.utils.QueryProcessor" />
+
+    <bean name="queryScheduler" class="org.springframework.scheduling.quartz.JobDetailBean">
+        <property name="jobClass" value="com.app.utils.QueryScheduler" />
+        <property name="jobDataAsMap">
+            <map>
+                <entry key="queryProcessor" value-ref="queryProcessor" />
+            </map>
+        </property>
+    </bean>
+
+    <bean id="cronTrigger" class="org.springframework.scheduling.quartz.CronTriggerBean">
+        <property name="jobDetail" ref="queryScheduler" />
+        <property name="cronExpression" value="0/5 * * * * ?" />
+    </bean>
+
+    <bean  id="schedulerFactory" class="org.springframework.scheduling.quartz.SchedulerFactoryBean">
+        <property name="triggers">
+            <list>
+                <ref bean="cronTrigger" />
+            </list>
+        </property>
+    </bean>
+
+    <!-- scheduler end-->
+
+
+
+    <mvc:resources mapping="/assets/**" location="/assets/"/>
+    <mvc:annotation-driven />
+</beans>
