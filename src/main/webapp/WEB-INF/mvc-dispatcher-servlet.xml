@@ -25,22 +25,23 @@
     </bean>
 
 
-
+    <!--database connection for openproject-->
 
     <bean id="OpenProject" class="org.apache.commons.dbcp.BasicDataSource"
-                destroy-method="close">
-        <property name="driverClassName" value="com.mysql.jdbc.Driver" />
-        <property name="url" value="jdbc:mysql://localhost:3306/bitnami_openproject" />
-        <property name="username" value="root" />
-        <property name="password" value="" />
+          destroy-method="close">
+        <property name="driverClassName" value="com.mysql.jdbc.Driver"/>
+        <property name="url" value="jdbc:mysql://localhost:3306/bitnami_openproject"/>
+        <property name="username" value="root"/>
+        <property name="password" value=""/>
     </bean>
 
     <bean id="hibernate4_openproject"
           class="org.springframework.orm.hibernate4.LocalSessionFactoryBean">
-        <property name="dataSource" ref="OpenProject" />
+        <property name="dataSource" ref="OpenProject"/>
         <property name="annotatedClasses">
             <list>
                 <value>com.app.model.openProject.UsersOpenProject</value>
+                <value>com.app.model.openProject.WorkPackages</value>
             </list>
         </property>
         <property name="hibernateProperties">
@@ -52,34 +53,44 @@
     </bean>
 
     <bean id="UserOpenProjectDAO" class="com.app.dao.openProject.UserOpenProjectDAOImpl">
-        <property name="sessionFactory" ref="hibernate4_openproject" />
+        <property name="sessionFactory" ref="hibernate4_openproject"/>
     </bean>
+
+    <bean id="WorkPackagesDAO" class="com.app.dao.openProject.WorkPackagesDAOImpl">
+        <property name="sessionFactory" ref="hibernate4_openproject"/>
+    </bean>
+
+
 
     <bean id="userOpenProjectService" class="com.app.service.openProject.UserOpenProjectServiceImpl">
         <property name="usersOpenProjectDAO" ref="UserOpenProjectDAO"></property>
     </bean>
 
+     <bean id="workPackagesService" class="com.app.service.openProject.WorkPackagesServiceImpl">
+        <property name="workPackagesDAO" ref="WorkPackagesDAO"></property>
+    </bean>
+
     <tx:annotation-driven transaction-manager="transactionManager_openproject"/>
 
     <bean id="transactionManager_openproject" class="org.springframework.orm.hibernate4.HibernateTransactionManager">
-        <property name="sessionFactory" ref="hibernate4_openproject" />
+        <property name="sessionFactory" ref="hibernate4_openproject"/>
     </bean>
 
 
-
-
+    <!--end connection-->
+    <!--database connection for epa-->
 
     <bean id="epa" class="org.apache.commons.dbcp.BasicDataSource"
           destroy-method="close">
-        <property name="driverClassName" value="com.mysql.jdbc.Driver" />
-        <property name="url" value="jdbc:mysql://localhost:3306/epa" />
-        <property name="username" value="root" />
-        <property name="password" value="" />
+        <property name="driverClassName" value="com.mysql.jdbc.Driver"/>
+        <property name="url" value="jdbc:mysql://localhost:3306/epa"/>
+        <property name="username" value="root"/>
+        <property name="password" value=""/>
     </bean>
 
     <bean id="hibernate4_epa"
           class="org.springframework.orm.hibernate4.LocalSessionFactoryBean">
-        <property name="dataSource" ref="epa" />
+        <property name="dataSource" ref="epa"/>
         <property name="annotatedClasses">
             <list>
                 <value>com.app.model.epa.Sprint</value>
@@ -94,7 +105,7 @@
     </bean>
 
     <bean id="SprintDAO" class="com.app.dao.epa.SprintDAOImpl">
-        <property name="sessionFactory" ref="hibernate4_epa" />
+        <property name="sessionFactory" ref="hibernate4_epa"/>
     </bean>
 
     <bean id="sprintService" class="com.app.service.epa.SprintServiceImpl">
@@ -104,33 +115,32 @@
     <tx:annotation-driven transaction-manager="transactionManager_epa"/>
 
     <bean id="transactionManager_epa" class="org.springframework.orm.hibernate4.HibernateTransactionManager">
-        <property name="sessionFactory" ref="hibernate4_epa" />
+        <property name="sessionFactory" ref="hibernate4_epa"/>
     </bean>
-
-
+    <!--end connection-->
 
 
     <!-- scheduler-->
-    <bean id="queryProcessor" class="com.app.utils.QueryProcessor" />
+    <bean id="queryProcessor" class="com.app.SchedularUtils.QueryProcessor"/>
 
     <bean name="queryScheduler" class="org.springframework.scheduling.quartz.JobDetailBean">
-        <property name="jobClass" value="com.app.utils.QueryScheduler" />
+        <property name="jobClass" value="com.app.SchedularUtils.QueryScheduler"/>
         <property name="jobDataAsMap">
             <map>
-                <entry key="queryProcessor" value-ref="queryProcessor" />
+                <entry key="queryProcessor" value-ref="queryProcessor"/>
             </map>
         </property>
     </bean>
 
     <bean id="cronTrigger" class="org.springframework.scheduling.quartz.CronTriggerBean">
-        <property name="jobDetail" ref="queryScheduler" />
-        <property name="cronExpression" value="0/5 * * * * ?" />
+        <property name="jobDetail" ref="queryScheduler"/>
+        <property name="cronExpression" value="0/5 * * * * ?"/>
     </bean>
 
-    <bean  id="schedulerFactory" class="org.springframework.scheduling.quartz.SchedulerFactoryBean">
+    <bean id="schedulerFactory" class="org.springframework.scheduling.quartz.SchedulerFactoryBean">
         <property name="triggers">
             <list>
-                <ref bean="cronTrigger" />
+                <ref bean="cronTrigger"/>
             </list>
         </property>
     </bean>
@@ -138,7 +148,6 @@
     <!-- scheduler end-->
 
 
-
     <mvc:resources mapping="/assets/**" location="/assets/"/>
-    <mvc:annotation-driven />
+    <mvc:annotation-driven/>
 </beans>

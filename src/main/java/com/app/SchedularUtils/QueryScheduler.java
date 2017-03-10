@@ -1,4 +1,4 @@
-package com.app.utils;
+package com.app.SchedularUtils;
 
 import org.quartz.JobExecutionContext;
 import org.quartz.JobExecutionException;

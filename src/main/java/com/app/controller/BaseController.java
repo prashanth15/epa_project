@@ -1,9 +1,12 @@
 package com.app.controller;
 
+import com.app.Criteria.individual.WorkCompletionOnTime;
 import com.app.model.epa.Sprint;
+import com.app.model.openProject.WorkPackages;
 import com.app.requestBody.SprintDuration;
 import com.app.service.epa.SprintServiceImpl;
 import com.app.service.openProject.UserOpenProjectServiceImpl;
+import com.app.service.openProject.WorkPackagesServiceImpl;
 import com.sun.deploy.nativesandbox.comm.Response;
 import org.quartz.CronExpression;
 import org.quartz.CronTrigger;
@@ -19,6 +22,7 @@ import java.text.DateFormat;
 import java.text.ParseException;
 import java.text.SimpleDateFormat;
 import java.util.Date;
+import java.util.List;
 
 
 @Controller
@@ -32,6 +36,10 @@ public class BaseController {
     @Qualifier(value = "sprintServiceImpl")
     SprintServiceImpl sprintService;
 
+    @Autowired
+    WorkCompletionOnTime workCompletionOnTime;
+
+
 
 //    @Autowired
 //    SchedulerFactoryBean schedulerFactoryBean;
@@ -43,6 +51,8 @@ public class BaseController {
 
     @RequestMapping(value = "/configuration", method = RequestMethod.GET)
     public String goToLoginPage(ModelMap model) {
+        workCompletionOnTime.getCriteriaScore(3);
+//        List<WorkPackages> tasks = workPackagesServiceImpl.getStatusOfTasks(3, "2017-02-18 05:20:51", "2017-02-24 05:20:51");
         return "adminConfiguration";
     }
 

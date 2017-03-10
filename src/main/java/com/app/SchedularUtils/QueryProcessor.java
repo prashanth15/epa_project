@@ -1,4 +1,4 @@
-package com.app.utils;
+package com.app.SchedularUtils;
 
 import java.text.SimpleDateFormat;
 import java.util.Date;

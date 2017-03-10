@@ -24,4 +24,8 @@ public class SprintServiceImpl {
     public void updateSprint(Sprint sprint){
         sprintDAO.updateSprint(sprint);
     }
+
+    public int getSprintDuration(){
+        return sprintDAO.getSprintDuration();
+    }
 }

@@ -8,6 +8,8 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Qualifier;
 import org.springframework.transaction.annotation.Propagation;
 
+import java.util.List;
+
 /**
  * Created by K.Kokulan on 3/1/2017.
  */
@@ -31,6 +33,17 @@ public class SprintDAOImpl implements SprintDAO {
     public void updateSprint(Sprint sprint){
         Session session = sessionFactory.getCurrentSession();
         session.update(sprint);
+    }
+
+    public int getSprintDuration(){
+        int days = 0;
+        Session session = sessionFactory.getCurrentSession();
+        List<Sprint> list = session.createQuery("from com.app.model.epa.Sprint as s where s.id = 1").list();
+
+        if(!list.isEmpty()){
+            days = list.get(0).getNo_of_days();
+        }
+        return days;
     }
 
 
