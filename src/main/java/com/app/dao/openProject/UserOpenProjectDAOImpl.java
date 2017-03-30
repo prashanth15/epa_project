@@ -10,9 +10,6 @@ import org.springframework.transaction.annotation.Propagation;
 
 import java.util.List;
 
-/**
- * Created by K.Kokulan on 2/28/2017.
- */
 @org.springframework.transaction.annotation.Transactional(propagation = Propagation.REQUIRED, value = "transactionManager_openproject")
 public class UserOpenProjectDAOImpl implements UsersOpenProjectDAO {
 
@@ -22,31 +19,19 @@ public class UserOpenProjectDAOImpl implements UsersOpenProjectDAO {
         this.sessionFactory = sessionFactory;
     }
 
-    @Override
-    public void addUser(UsersOpenProject p) {
-
-    }
-
-    @Override
-    public void updateUser(UsersOpenProject p) {
-
-    }
-
     @SuppressWarnings("unchecked")
-    @Override
     public List<UsersOpenProject> listUsers() {
         Session session = this.sessionFactory.getCurrentSession();
-        List<UsersOpenProject> users = session.createQuery("select u.firstname from com.app.model.openProject.UsersOpenProject as u").list();
+        String query = "select u.firstname from com.app.model.openProject.UsersOpenProject as u";
+        List<UsersOpenProject> users = session.createQuery(query).list();
         return users;
     }
 
-    @Override
-    public UsersOpenProject getUserById(int id) {
-        return null;
-    }
-
-    @Override
-    public void removeUSer(int id) {
-
+    @SuppressWarnings("unchecked")
+    public String getUserLoginById(int id){
+        Session session = this.sessionFactory.getCurrentSession();
+        String query = "SELECT user.login FROM com.app.model.openProject.UsersOpenProject as user WHERE user.id = " + id;
+        String login = (String) session.createQuery(query).uniqueResult();
+        return login;
     }
 }

@@ -9,9 +9,7 @@ import org.springframework.stereotype.Service;
 
 import java.util.List;
 
-/**
- * Created by K.Kokulan on 2/28/2017.
- */
+
 @Service
 public class UserOpenProjectServiceImpl implements UserOpenProjectService {
 
@@ -23,28 +21,14 @@ public class UserOpenProjectServiceImpl implements UserOpenProjectService {
         this.usersOpenProjectDAO = usersOpenProjectDAO;
     }
 
-    @Override
-    public void addUser(UsersOpenProject p) {
-
-    }
-
-    @Override
-    public void updateUser(UsersOpenProject p) {
-
-    }
 
     @Override
     public List<UsersOpenProject> listUsers() {
         return usersOpenProjectDAO.listUsers();
     }
 
-    @Override
-    public UsersOpenProject getUserById(int id) {
-        return null;
+    public String getLoginByUserId(int id){
+        return usersOpenProjectDAO.getUserLoginById(id);
     }
 
-    @Override
-    public void removeUSer(int id) {
-
-    }
 }

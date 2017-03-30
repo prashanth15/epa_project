@@ -325,7 +325,7 @@ ul {
     -webkit-border-radius: 0 4px 0 0 !important;
 }
 
-/*list group*/
+/*list projects*/
 
 .list-group-item.active, .list-group-item.active:hover, .list-group-item.active:focus {
     background-color: #00A8B3;

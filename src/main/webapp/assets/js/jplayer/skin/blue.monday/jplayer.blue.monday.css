@@ -102,7 +102,7 @@ div.jp-video div.jp-interface {
 
 }
 
-/* @group CONTROLS */
+/* @projects CONTROLS */
 
 div.jp-controls-holder {
 	clear: both;
@@ -201,7 +201,7 @@ a.jp-next:hover {
 
 /* @end */
 
-/* @group progress bar */
+/* @projects progress bar */
 
 div.jp-progress {
 	overflow:hidden;
@@ -246,7 +246,7 @@ div.jp-seeking-bg {
 
 /* @end */
 
-/* @group volume controls */
+/* @projects volume controls */
 
 
 a.jp-mute,
@@ -341,7 +341,7 @@ div.jp-volume-bar-value {
 
 /* @end */
 
-/* @group current time and duration */
+/* @projects current time and duration */
 
 div.jp-audio div.jp-time-holder {
 	position:absolute;
@@ -384,7 +384,7 @@ div.jp-video div.jp-duration {
 
 /* @end */
 
-/* @group playlist */
+/* @projects playlist */
 
 div.jp-title {
 	font-weight:bold;
@@ -528,7 +528,7 @@ div.jp-jplayer {
 
 
 
-/* @group TOGGLES */
+/* @projects TOGGLES */
 
 /* The audio toggles are nested inside jp-time-holder */
 
@@ -623,7 +623,7 @@ a.jp-shuffle-off:hover {
 
 /* @end */
 
-/* @group NO SOLUTION error feedback */
+/* @projects NO SOLUTION error feedback */
 
 .jp-no-solution {
 	padding:5px;

@@ -1,6 +1,6 @@
 package com.app.controller;
 
-import com.app.Criteria.individual.WorkCompletionOnTime;
+import com.app.Criteria.individual.*;
 import com.app.model.epa.Sprint;
 import com.app.model.openProject.WorkPackages;
 import com.app.requestBody.SprintDuration;
@@ -8,11 +8,10 @@ import com.app.service.epa.SprintServiceImpl;
 import com.app.service.openProject.UserOpenProjectServiceImpl;
 import com.app.service.openProject.WorkPackagesServiceImpl;
 import com.sun.deploy.nativesandbox.comm.Response;
-import org.quartz.CronExpression;
-import org.quartz.CronTrigger;
-import org.quartz.Trigger;
+import org.quartz.*;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Qualifier;
+import org.springframework.scheduling.quartz.JobDetailBean;
 import org.springframework.scheduling.quartz.SchedulerFactoryBean;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.ModelMap;
@@ -39,10 +38,30 @@ public class BaseController {
     @Autowired
     WorkCompletionOnTime workCompletionOnTime;
 
+    @Autowired
+    PlanningTheProject planningTheProject;
+
+    @Autowired
+    WorkEfficiency workEfficiency;
+
+    @Autowired
+    DefectsCount defectsCount;
+
+    @Autowired
+    FixedDefectsCount fixedDefectsCount;
+
+    @Autowired
+    CodeQualityIssues codeQualityIssues;
+
+    @Autowired
+    CodeQualityIssuesFixed codeQualityIssuesFixed;
 
 
 //    @Autowired
-//    SchedulerFactoryBean schedulerFactoryBean;
+//    SchedulerFactoryBean schedulerFactory;
+
+    @Autowired
+    JobDetailBean queryScheduler;
 
     @Autowired
     CronTrigger cronTrigger;
@@ -51,7 +70,14 @@ public class BaseController {
 
     @RequestMapping(value = "/configuration", method = RequestMethod.GET)
     public String goToLoginPage(ModelMap model) {
-        workCompletionOnTime.getCriteriaScore(3);
+        double workCompletion = workCompletionOnTime.getCriteriaScore(3);
+        double planning = planningTheProject.getCriteriaScore(3);
+        double efficiency = workEfficiency.getCriteriaScore(3);
+        double defectCount = defectsCount.getCriteriaScore(3);
+        double fixedDefectCount = fixedDefectsCount.getCriteriaScore(3);
+        double codeQuality = codeQualityIssues.getCriteriaScore(3);
+        double codeQualityFixed = codeQualityIssuesFixed.getCriteriaScore(3);
+
 //        List<WorkPackages> tasks = workPackagesServiceImpl.getStatusOfTasks(3, "2017-02-18 05:20:51", "2017-02-24 05:20:51");
         return "adminConfiguration";
     }

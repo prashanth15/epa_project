@@ -952,9 +952,9 @@
               groupColY,
               i;
 
-          // for each group potential horizontal position
+          // for each projects potential horizontal position
           for ( i=0; i < groupCount; i++ ) {
-            // make an array of colY values for that one group
+            // make an array of colY values for that one projects
             groupColY = props.colYs.slice( i, i+colSpan );
             // and get the max value of the array
             groupY[i] = Math.max.apply( Math, groupColY );
@@ -1141,9 +1141,9 @@
               groupX = [],
               groupRowX, i;
 
-          // for each group potential horizontal position
+          // for each projects potential horizontal position
           for ( i=0; i < groupCount; i++ ) {
-            // make an array of colY values for that one group
+            // make an array of colY values for that one projects
             groupRowX = props.rowXs.slice( i, i+rowSpan );
             // and get the max value of the array
             groupX[i] = Math.max.apply( Math, groupRowX );

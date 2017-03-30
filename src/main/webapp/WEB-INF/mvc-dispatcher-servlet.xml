@@ -42,6 +42,7 @@
             <list>
                 <value>com.app.model.openProject.UsersOpenProject</value>
                 <value>com.app.model.openProject.WorkPackages</value>
+                <value>com.app.model.openProject.TimeEntries</value>
             </list>
         </property>
         <property name="hibernateProperties">
@@ -60,6 +61,9 @@
         <property name="sessionFactory" ref="hibernate4_openproject"/>
     </bean>
 
+    <bean id="ProjectsDAO" class="com.app.dao.openProject.ProjectsDAOImpl">
+        <property name="sessionFactory" ref="hibernate4_openproject"/>
+    </bean>
 
 
     <bean id="userOpenProjectService" class="com.app.service.openProject.UserOpenProjectServiceImpl">
@@ -78,6 +82,7 @@
 
 
     <!--end connection-->
+
     <!--database connection for epa-->
 
     <bean id="epa" class="org.apache.commons.dbcp.BasicDataSource"
@@ -120,6 +125,49 @@
     <!--end connection-->
 
 
+    <!--database connection for Sonar-->
+
+    <bean id="sonar" class="org.apache.commons.dbcp.BasicDataSource"
+          destroy-method="close">
+        <property name="driverClassName" value="com.mysql.jdbc.Driver"/>
+        <property name="url" value="jdbc:mysql://localhost:3306/sonar"/>
+        <property name="username" value="root"/>
+        <property name="password" value=""/>
+    </bean>
+
+    <bean id="hibernate4_sonar"
+          class="org.springframework.orm.hibernate4.LocalSessionFactoryBean">
+        <property name="dataSource" ref="sonar"/>
+        <property name="annotatedClasses">
+            <list>
+                <value>com.app.model.sonar.Issues</value>
+            </list>
+        </property>
+        <property name="hibernateProperties">
+            <props>
+                <prop key="hibernate.dialect">org.hibernate.dialect.MySQLDialect</prop>
+                <prop key="hibernate.show_sql">true</prop>
+            </props>
+        </property>
+    </bean>
+
+    <bean id="IssuesDAO" class="com.app.dao.sonar.IssuesDAOImpl">
+        <property name="sessionFactory" ref="hibernate4_sonar"/>
+    </bean>
+
+    <bean id="issuesService" class="com.app.service.sonar.IssuesServiceImpl">
+        <property name="issuesDAO" ref="IssuesDAO"></property>
+    </bean>
+
+    <tx:annotation-driven transaction-manager="transactionManager_sonar"/>
+
+    <bean id="transactionManager_sonar" class="org.springframework.orm.hibernate4.HibernateTransactionManager">
+        <property name="sessionFactory" ref="hibernate4_sonar"/>
+    </bean>
+    <!--end connection-->
+
+
+
     <!-- scheduler-->
     <bean id="queryProcessor" class="com.app.SchedularUtils.QueryProcessor"/>
 
@@ -137,7 +185,7 @@
         <property name="cronExpression" value="0/5 * * * * ?"/>
     </bean>
 
-    <bean id="schedulerFactory" class="org.springframework.scheduling.quartz.SchedulerFactoryBean">
+    <bean id="schedulerFactoryBean" class="org.springframework.scheduling.quartz.SchedulerFactoryBean">
         <property name="triggers">
             <list>
                 <ref bean="cronTrigger"/>

@@ -11,9 +11,6 @@ import java.text.SimpleDateFormat;
 import java.util.Date;
 import java.util.List;
 
-/**
- * Created by K.Kokulan on 3/10/2017.
- */
 @Service
 public class WorkCompletionOnTime {
 
