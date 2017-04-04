@@ -5,9 +5,6 @@ import com.app.model.epa.Sprint;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
-/**
- * Created by K.Kokulan on 3/1/2017.
- */
 @Service
 public class SprintServiceImpl {
     SprintDAO sprintDAO;

@@ -20,10 +20,10 @@ public class UserOpenProjectDAOImpl implements UsersOpenProjectDAO {
     }
 
     @SuppressWarnings("unchecked")
-    public List<UsersOpenProject> listUsers() {
+    public List<Object[]> listUsers() {
         Session session = this.sessionFactory.getCurrentSession();
-        String query = "select u.firstname from com.app.model.openProject.UsersOpenProject as u";
-        List<UsersOpenProject> users = session.createQuery(query).list();
+        String query = "select u.id, u.firstname from com.app.model.openProject.UsersOpenProject as u WHERE u.status = 1 AND u.login != 'admin'";
+        List<Object[]> users = session.createQuery(query).list();
         return users;
     }
 
@@ -33,5 +33,13 @@ public class UserOpenProjectDAOImpl implements UsersOpenProjectDAO {
         String query = "SELECT user.login FROM com.app.model.openProject.UsersOpenProject as user WHERE user.id = " + id;
         String login = (String) session.createQuery(query).uniqueResult();
         return login;
+    }
+
+    @SuppressWarnings("unchecked")
+    public String getFirstName(int id){
+        Session session = this.sessionFactory.getCurrentSession();
+        String query = "SELECT user.firstname FROM com.app.model.openProject.UsersOpenProject as user WHERE user.id = " + id;
+        String name = (String) session.createQuery(query).uniqueResult();
+        return name;
     }
 }

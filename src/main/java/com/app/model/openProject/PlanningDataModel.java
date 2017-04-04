@@ -3,7 +3,7 @@ package com.app.model.openProject;
 
 public class PlanningDataModel {
     private Float estimated_hours;
-    private Float hours;
+    private Double hours;
 
     public Float getEstimated_hours() {
         return estimated_hours;
@@ -13,11 +13,11 @@ public class PlanningDataModel {
         this.estimated_hours = estimated_hours;
     }
 
-    public Float getHours() {
+    public Double getHours() {
         return hours;
     }
 
-    public void setHours(Float hours) {
+    public void setHours(Double hours) {
         this.hours = hours;
     }
 }

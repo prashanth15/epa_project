@@ -1,8 +1,6 @@
 package com.app.requestBody;
 
-/**
- * Created by K.Kokulan on 3/2/2017.
- */
+
 public class SprintDuration {
 
     private String duration;

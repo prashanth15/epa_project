@@ -29,4 +29,13 @@ public class ProjectsDAOImpl implements ProjectsDAO {
 
         return projects;
     }
+
+    @Override
+    public String getProjectNameById(int id){
+        Session session = this.sessionFactory.getCurrentSession();
+        String query = "SELECT project.name FROM com.app.model.openProject.Projects as project WHERE project.id = " + id;
+        String projects = (String) session.createQuery(query).uniqueResult();
+
+        return projects;
+    }
 }

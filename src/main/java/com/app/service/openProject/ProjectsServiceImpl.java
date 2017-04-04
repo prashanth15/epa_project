@@ -23,4 +23,9 @@ public class ProjectsServiceImpl implements ProjectsService {
     public List<Projects> getProjects(){
         return projectsDAO.getProjects();
     }
+
+    @Override
+    public String getProjectNameById(int id){
+        return projectsDAO.getProjectNameById(id);
+    }
 }

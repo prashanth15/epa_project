@@ -25,4 +25,8 @@ public class IssuesServiceImpl implements IssuesService {
     public List getSeverityFixedCount(String assignee, String startDate, String endDate){
         return issuesDAO.getSeverityFixedCount(assignee, startDate, endDate);
     }
+
+    public List getProjectSeverityCount(String projectUuid, String startDate, String endDate){
+        return issuesDAO.getProjectSeverityCount(projectUuid, startDate, endDate);
+    }
 }

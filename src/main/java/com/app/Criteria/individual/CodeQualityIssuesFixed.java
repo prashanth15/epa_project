@@ -3,6 +3,7 @@ package com.app.Criteria.individual;
 import com.app.service.epa.SprintServiceImpl;
 import com.app.service.openProject.UserOpenProjectServiceImpl;
 import com.app.service.sonar.IssuesServiceImpl;
+import com.app.utils.Utils;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Qualifier;
 import org.springframework.stereotype.Service;
@@ -32,6 +33,9 @@ public class CodeQualityIssuesFixed {
     @Qualifier(value = "sprintServiceImpl")
     SprintServiceImpl sprintService;
 
+    @Autowired
+    Utils utils;
+
     public double getCriteriaScore(int employeeId) {
 
         int sprintDuration = sprintService.getSprintDuration();
@@ -40,7 +44,8 @@ public class CodeQualityIssuesFixed {
 
         if (sprintDuration != ZERO) {
 
-            Date startDateInMillis = new Date(System.currentTimeMillis() - (sprintDuration * DAY_IN_MS));
+            int actualSprintDays = utils.springDurationCheck(sprintDuration);
+            Date startDateInMillis = new Date(System.currentTimeMillis() - (actualSprintDays * DAY_IN_MS));
             Date endDateInMillis = new Date(System.currentTimeMillis());
 
             String startDate = Long.toString(startDateInMillis.getTime());

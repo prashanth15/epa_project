@@ -10,9 +10,6 @@ import org.springframework.transaction.annotation.Propagation;
 
 import java.util.List;
 
-/**
- * Created by K.Kokulan on 3/1/2017.
- */
 
 @org.springframework.transaction.annotation.Transactional(propagation = Propagation.REQUIRED, value = "transactionManager_epa")
 public class SprintDAOImpl implements SprintDAO {

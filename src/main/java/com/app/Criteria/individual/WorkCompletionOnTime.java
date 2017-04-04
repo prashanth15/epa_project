@@ -3,6 +3,7 @@ package com.app.Criteria.individual;
 import com.app.model.openProject.WorkPackages;
 import com.app.service.epa.SprintServiceImpl;
 import com.app.service.openProject.WorkPackagesServiceImpl;
+import com.app.utils.Utils;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Qualifier;
 import org.springframework.stereotype.Service;
@@ -31,6 +32,8 @@ public class WorkCompletionOnTime {
     @Qualifier(value = "sprintServiceImpl")
     SprintServiceImpl sprintService;
 
+    @Autowired
+    Utils utils;
     /**
      * method to get criteria score
      * @param employeeId
@@ -43,7 +46,8 @@ public class WorkCompletionOnTime {
 
         if (sprintDuration != ZERO) {
 
-            Date startDateInMillis = new Date(System.currentTimeMillis() - (sprintDuration * DAY_IN_MS));
+            int actualSprintDays = utils.springDurationCheck(sprintDuration);
+            Date startDateInMillis = new Date(System.currentTimeMillis() - (actualSprintDays * DAY_IN_MS));
             Date endDateInMillis = new Date(System.currentTimeMillis());
 
             SimpleDateFormat dateFormat = new SimpleDateFormat(SIMPLE_DATE_FORMAT);

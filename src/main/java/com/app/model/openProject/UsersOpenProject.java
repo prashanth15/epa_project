@@ -3,10 +3,6 @@ package com.app.model.openProject;
 import javax.persistence.*;
 import java.util.Date;
 
-/**
- * Created by K.Kokulan on 2/28/2017.
- */
-
 @Entity
 @Table(name="users")
 public class UsersOpenProject {

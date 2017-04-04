@@ -27,6 +27,11 @@ public class WorkPackagesServiceImpl implements WorkPackagesService{
     }
 
     @Override
+    public List<WorkPackages> getStatusOfTasksProjects(int projectId, String startDate, String endDate){
+        return workPackagesDAO.getStatusOfTasksProjects(projectId, startDate, endDate);
+    }
+
+    @Override
     public PlanningDataModel getPlaningTheProject(int userId, String startDate, String endDate){
         return workPackagesDAO.getPlaningTheProject(userId, startDate, endDate);
     }
@@ -39,5 +44,20 @@ public class WorkPackagesServiceImpl implements WorkPackagesService{
     @Override
     public long getFixedDefectCount(int userId, String startDate, String endDate){
         return workPackagesDAO.getFixedDefectCount(userId, startDate, endDate);
+    }
+
+    @Override
+    public PlanningDataModel getPlaningTheProjectTeam(int projectId, String startDate, String endDate){
+        return workPackagesDAO.getPlaningTheProjectTeam(projectId, startDate, endDate);
+    }
+
+    @Override
+    public long getProjectDefectCount(int projectId, String startDate, String endDate){
+        return workPackagesDAO.getProjectDefectCount(projectId, startDate, endDate);
+    }
+
+    @Override
+    public int getProjectIdForEmployee(int empId, String startDate, String endDate){
+        return workPackagesDAO.getProjectIdForEmployee(empId, startDate, endDate);
     }
 }

@@ -23,12 +23,16 @@ public class UserOpenProjectServiceImpl implements UserOpenProjectService {
 
 
     @Override
-    public List<UsersOpenProject> listUsers() {
+    public List<Object[]> listUsers() {
         return usersOpenProjectDAO.listUsers();
     }
 
     public String getLoginByUserId(int id){
         return usersOpenProjectDAO.getUserLoginById(id);
+    }
+
+    public String getFirstName(int id){
+        return usersOpenProjectDAO.getFirstName(id);
     }
 
 }

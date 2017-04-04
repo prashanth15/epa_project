@@ -5,4 +5,5 @@ import java.util.List;
 
 public interface ProjectsDAO {
     public List<Projects> getProjects();
+    public String getProjectNameById(int id);
 }

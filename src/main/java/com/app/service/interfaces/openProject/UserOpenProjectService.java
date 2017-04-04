@@ -6,6 +6,7 @@ import java.util.List;
 
 
 public interface UserOpenProjectService {
-    public List<UsersOpenProject> listUsers();
+    public List<Object[]> listUsers();
     public String getLoginByUserId(int id);
+    public String getFirstName(int id);
 }

@@ -29,6 +29,16 @@ public class IssuesDAOImpl implements IssuesDAO {
     }
 
     @SuppressWarnings("unchecked")
+    public List getProjectSeverityCount(String projectUuid, String startDate, String endDate){
+        Session session = this.sessionFactory.getCurrentSession();
+
+        String query = "SELECT iss.severity, COUNT(*) FROM com.app.model.sonar.Issues as iss WHERE iss.project_uuid = '" +
+                projectUuid + "' AND iss.created_at BETWEEN " + startDate + " AND " + endDate + " AND status = 'OPEN' GROUP BY iss.severity";
+        List result = session.createQuery(query).list();
+        return result;
+    }
+
+    @SuppressWarnings("unchecked")
     public List getSeverityFixedCount(String assignee, String startDate, String endDate){
         Session session = this.sessionFactory.getCurrentSession();
 
